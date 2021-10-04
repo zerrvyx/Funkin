@@ -670,7 +670,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 	static var noCheckbox:Array<String> = [
 		'Framerate',
 		'Note Delay',
-		'Damage from Dad Notes'
+		'Damage from Dad Notes',
+		'No Health Gain'
 	];
 
 	static var options:Array<String> = [
@@ -698,7 +699,11 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'MODIFIERS',
 		'Dad Notes Do Damage',
 		'Dad Notes Can Kill',
-		'Damage from Dad Notes'
+		'Damage from Dad Notes',
+		'No Health Gain',
+		'Dad Notes Visible',
+		'BF Notes Visible',
+		'Stuns Block Inputs'
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -892,6 +897,15 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Dad Notes Can Kill':
 						ClientPrefs.dadNotesCanKill = !ClientPrefs.dadNotesCanKill;
+
+					case 'Dad Notes Visible':
+						ClientPrefs.dadNotesVisible = !ClientPrefs.dadNotesVisible;
+
+					case 'BF Notes Visible':
+						ClientPrefs.bfNotesVisible = !ClientPrefs.bfNotesVisible;
+
+					case 'Stuns Block Inputs':
+						ClientPrefs.stunsBlockInputs = !ClientPrefs.stunsBlockInputs;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -929,6 +943,14 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.damageFromDadNotes += add * mult;
 						if(ClientPrefs.damageFromDadNotes < 5) ClientPrefs.damageFromDadNotes = 5;
 						else if(ClientPrefs.damageFromDadNotes > 100) ClientPrefs.damageFromDadNotes = 100;
+					case 'No Health Gain':
+						var mult:Int = 5;
+						if (holdTime > 1.5) {
+							mult = 10;
+						}
+						ClientPrefs.noHealthGain += add * mult;
+						if(ClientPrefs.noHealthGain < 0) ClientPrefs.noHealthGain = 0;
+						else if(ClientPrefs.noHealthGain > 100) ClientPrefs.noHealthGain = 100;
 				}
 				reloadValues();
 
@@ -1001,6 +1023,14 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If checked and 'Dad Notes Do Damage' is enabled, \ndad notes will be able to kill you";
 			case 'Damage from Dad Notes':
 				daText = "Changes how much damage dad notes deal in %\nRequires 'Dad Notes Do Damage' to be checked";
+			case 'No Health Gain':
+				daText = "You will not gain health by hitting notes\nThe value represents your starting health in %";
+			case 'Dad Notes Visible':
+				daText = "If unchecked, dad notes will not be shown";
+			case 'BF Notes Visible':
+				daText = "If unchecked, boyfriend's notes will not be shown";
+			case 'Stuns Block Inputs':
+				daText = "Pretty self-explanatory";
 		}
 		descText.text = daText;
 
@@ -1079,6 +1109,12 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.infoBarBounces;
 					case 'Dad Notes Can Kill':
 						daValue = ClientPrefs.dadNotesCanKill;
+					case 'Dad Notes Visible':
+						daValue = ClientPrefs.dadNotesVisible;
+					case 'BF Notes Visible':
+						daValue = ClientPrefs.bfNotesVisible;
+					case 'Stuns Block Inputs':
+						daValue = ClientPrefs.stunsBlockInputs;
 				}
 				checkbox.daValue = daValue;
 			}
@@ -1094,6 +1130,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daText = ClientPrefs.noteOffset + 'ms';
 					case 'Damage from Dad Notes':
 						daText = ClientPrefs.damageFromDadNotes / 10 + '%';
+					case 'No Health Gain':
+						daText = ClientPrefs.noHealthGain == 0 ? "OFF" : ClientPrefs.noHealthGain + '%';
 				}
 				var lastTracker:FlxSprite = text.sprTracker;
 				text.sprTracker = null;

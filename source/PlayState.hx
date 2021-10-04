@@ -143,8 +143,8 @@ class PlayState extends MusicBeatState
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
-	public var health:Float = 1;
-	public var healthPercentage:Float = 50;
+	public var health:Float;
+	public var healthPercentage:Float;
 	public var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
@@ -246,6 +246,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		health = ClientPrefs.noHealthGain == 0 ? 1 : ClientPrefs.noHealthGain * 0.02;
 		#if MODS_ALLOWED
 		Paths.destroyLoadedImages(resetSpriteCache);
 		#end
@@ -1724,6 +1725,13 @@ class PlayState extends MusicBeatState
 			babyArrow.x += ((FlxG.width / 2) * player);
 
 			strumLineNotes.add(babyArrow);
+			for (note in 0...strumLineNotes.members.length) {
+				if (player == 1 && note >= 4) {
+					if (!ClientPrefs.bfNotesVisible)
+						strumLineNotes.members[note].visible = false;
+				} else if (!ClientPrefs.dadNotesVisible)
+					strumLineNotes.members[note].visible = false;
+			}
 		}
 	}
 
@@ -2185,10 +2193,10 @@ class PlayState extends MusicBeatState
 			var fakeCrochet:Float = (60 / SONG.bpm) * 1000;
 			notes.forEachAlive(function(daNote:Note)
 			{
-				if(!daNote.mustPress && ClientPrefs.middleScroll)
+				if(!daNote.mustPress)
 				{
 					daNote.active = true;
-					daNote.visible = false;
+					daNote.visible = ClientPrefs.middleScroll ? false : ClientPrefs.dadNotesVisible;
 				}
 				else if (daNote.y > FlxG.height)
 				{
@@ -2197,7 +2205,7 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					daNote.visible = true;
+					daNote.visible = ClientPrefs.bfNotesVisible;
 					daNote.active = true;
 				}
 
@@ -3246,6 +3254,7 @@ class PlayState extends MusicBeatState
 
 	private function keyShit():Void
 	{
+		if (ClientPrefs.stunsBlockInputs && boyfriend.stunned) return;
 		// HOLDING
 		var up = controls.NOTE_UP;
 		var right = controls.NOTE_RIGHT;
@@ -3389,13 +3398,12 @@ class PlayState extends MusicBeatState
 			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
 			// FlxG.log.add('played imss note');
 
-			/*boyfriend.stunned = true;
+			boyfriend.stunned = true;
 
-			// get stunned for 1/60 of a second, makes you able to
-			new FlxTimer().start(1 / 60, function(tmr:FlxTimer)
+			new FlxTimer().start(1.25, function(tmr:FlxTimer)
 			{
 				boyfriend.stunned = false;
-			});*/
+			});
 
 			switch (direction)
 			{
@@ -3414,6 +3422,7 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void
 	{
+		if (ClientPrefs.stunsBlockInputs && boyfriend.stunned) return;
 		if (!note.wasGoodHit)
 		{
 			switch(note.noteType) {
@@ -3460,7 +3469,8 @@ class PlayState extends MusicBeatState
 				combo += 1;
 				if(combo > 9999) combo = 9999;
 			}
-			health += note.hitHealth;
+			if (ClientPrefs.noHealthGain == 0)
+				health += note.hitHealth;
 
 			var daAlt = '';
 			if(note.noteType == 'Alt Animation') daAlt = '-alt';

@@ -29,6 +29,10 @@ class ClientPrefs {
 	public static var infoBarBounces:Bool = false;
 	public static var dadNotesCanKill:Bool = false;
 	public static var damageFromDadNotes:Int = 10;
+	public static var noHealthGain:Int = 0;
+	public static var dadNotesVisible:Bool = true;
+	public static var bfNotesVisible:Bool = true;
+	public static var stunsBlockInputs:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -88,6 +92,10 @@ class ClientPrefs {
 		FlxG.save.data.infoBarBounces = infoBarBounces;
 		FlxG.save.data.dadNotesCanKill = dadNotesCanKill;
 		FlxG.save.data.damageFromDadNotes = damageFromDadNotes;
+		FlxG.save.data.noHealthGain = noHealthGain;
+		FlxG.save.data.dadNotesVisible = dadNotesVisible;
+		FlxG.save.data.bfNotesVisible = bfNotesVisible;
+		FlxG.save.data.stunsBlockInputs = stunsBlockInputs;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -180,6 +188,18 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.damageFromDadNotes != null) {
 			damageFromDadNotes = FlxG.save.data.damageFromDadNotes;
+		}
+		if(FlxG.save.data.noHealthGain != null) {
+			noHealthGain = FlxG.save.data.noHealthGain;
+		}
+		if(FlxG.save.data.dadNotesVisible != null) {
+			dadNotesVisible = FlxG.save.data.dadNotesVisible;
+		}
+		if(FlxG.save.data.bfNotesVisible != null) {
+			bfNotesVisible = FlxG.save.data.bfNotesVisible;
+		}
+		if(FlxG.save.data.stunsBlockInputs != null) {
+			stunsBlockInputs = FlxG.save.data.stunsBlockInputs;
 		}
 
 		var save:FlxSave = new FlxSave();
