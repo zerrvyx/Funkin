@@ -207,7 +207,7 @@ class Alphabet extends FlxSpriteGroup
 		// trace(arrayShit);
 
 		if(speed <= 0) {
-			while(!finishedText) { 
+			while(!finishedText) {
 				timerCheck();
 			}
 			if(dialogueSound != null) dialogueSound.stop();
@@ -430,6 +430,10 @@ class AlphaCharacter extends FlxSprite
 				x -= 20 / textSize;
 				y -= 5 * textSize;
 				offset.x = 12 * textSize;
+			case '.':
+				y += 45 * textSize;
+				x += 5 * textSize;
+				offset.x += 3 * textSize;
 		}
 	}
 

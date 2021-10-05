@@ -52,7 +52,6 @@
 	<!-- <define name="PRELOAD_ALL" /> -->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
-
 	<library name="videos"        preload="true" />
 	<section if="PRELOAD_ALL">
 		<library name="songs"         preload="true" />
@@ -63,7 +62,6 @@
 		<library name="week5"         preload="true" />
 		<library name="week6"         preload="true" />
 	</section>
-
 	<section if="NO_PRELOAD_ALL">
 		<library name="songs"         preload="false" />
 		<library name="shared"        preload="false" />
@@ -73,7 +71,6 @@
 		<library name="week5"         preload="false" />
 		<library name="week6"         preload="false" />
 	</section>
-
 	<assets path="plugins/"             rename=''               if="VIDEOS_ALLOWED windows" />
 	<assets path="dlls/"                rename=''               if="VIDEOS_ALLOWED windows" />
 	<assets path="assets/videos"        library="videos"        if="VIDEOS_ALLOWED"/>
@@ -162,7 +159,6 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-
 	<icon path="art/icon16.png" size='16'/>
 	<icon path="art/icon32.png" size='32'/>
 	<icon path="art/icon64.png" size='64'/>

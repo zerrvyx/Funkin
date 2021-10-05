@@ -108,7 +108,6 @@ class WeekData {
 							weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
 						}
 						#end
-						
 						if(weekFile != null && (isStoryMode == null || (isStoryMode && !weekFile.hideStoryMode) || (!isStoryMode && !weekFile.hideFreeplay))) {
 							weeksLoaded.set(sexList[i], weekFile);
 							weeksList.push(sexList[i]);

@@ -52,7 +52,7 @@ class StoryMenuState extends MusicBeatState
 	override function create()
 	{
 		#if MODS_ALLOWED
-		Paths.destroyLoadedImages(true);
+		Paths.destroyLoadedImages();
 		#end
 		WeekData.reloadWeekFiles(true);
 		if(curWeek >= WeekData.weeksList.length) curWeek = 0;
@@ -140,7 +140,7 @@ class StoryMenuState extends MusicBeatState
 		sprDifficultyGroup = new FlxTypedGroup<FlxSprite>();
 		add(sprDifficultyGroup);
 
-		
+
 		for (i in 0...CoolUtil.difficultyStuff.length) {
 			var sprDifficulty:FlxSprite = new FlxSprite(leftArrow.x + 60, leftArrow.y).loadGraphic(Paths.image('menudifficulties/' + CoolUtil.difficultyStuff[i][0].toLowerCase()));
 			sprDifficulty.x += (308 - sprDifficulty.width) / 2;

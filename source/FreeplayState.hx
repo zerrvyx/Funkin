@@ -48,7 +48,7 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		#if MODS_ALLOWED
-		Paths.destroyLoadedImages(true);
+		Paths.destroyLoadedImages();
 		#end
 		WeekData.reloadWeekFiles(false);
 		#if desktop
@@ -139,7 +139,7 @@ class FreeplayState extends MusicBeatState
 		var swag:Alphabet = new Alphabet(1, 0, "swag");
 
 		// JUST DOIN THIS SHIT FOR TESTING!!!
-		/* 
+		/*
 			var md:String = Markdown.markdownToHtml(Assets.getText('CHANGELOG.md'));
 
 			var texFel:TextField = new TextField();
@@ -294,7 +294,7 @@ class FreeplayState extends MusicBeatState
 			LoadingState.loadAndSwitchState(new PlayState());
 
 			FlxG.sound.music.volume = 0;
-					
+
 			destroyFreeplayVocals();
 		}
 		else if(controls.RESET)

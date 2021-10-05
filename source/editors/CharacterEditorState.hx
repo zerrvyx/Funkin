@@ -144,7 +144,7 @@ class CharacterEditorState extends MusicBeatState
 		var tipText:FlxText = new FlxText(FlxG.width - 20, FlxG.height, 0,
 			"E/Q - Camera Zoom In/Out
 			\nJKLI - Move Camera
-			
+
 			\nW/S - Previous/Next Animation
 			\nSpace - Play Animation
 			\nArrow Keys - Move Character Offset
@@ -186,7 +186,7 @@ class CharacterEditorState extends MusicBeatState
 		add(UI_characterbox);
 		add(UI_box);
 		add(changeBGbutton);
-		
+
 		//addOffsetsUI();
 		addSettingsUI();
 
@@ -275,7 +275,7 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.name = "Offsets";
 
 		animationInputText = new FlxUIInputText(15, 30, 100, 'idle', 8);
-		
+
 		var addButton:FlxButton = new FlxButton(animationInputText.x + animationInputText.width + 23, animationInputText.y - 2, "Add", function()
 		{
 			var theText:String = animationInputText.text;
@@ -294,7 +294,7 @@ class CharacterEditorState extends MusicBeatState
 				}
 			}
 		});
-			
+
 		var removeButton:FlxButton = new FlxButton(animationInputText.x + animationInputText.width + 23, animationInputText.y + 20, "Remove", function()
 		{
 			var theText:String = animationInputText.text;
@@ -314,7 +314,7 @@ class CharacterEditorState extends MusicBeatState
 				}
 			}
 		});
-			
+
 		var saveButton:FlxButton = new FlxButton(animationInputText.x, animationInputText.y + 35, "Save Offsets", function()
 		{
 			saveOffsets();
@@ -360,7 +360,7 @@ class CharacterEditorState extends MusicBeatState
 			loadChar(!check_player.checked);
 			reloadCharacterDropDown();
 		});
-		
+
 		tab_group.add(new FlxText(charDropDown.x, charDropDown.y - 18, 0, 'Character:'));
 		tab_group.add(check_player);
 		tab_group.add(reloadCharacter);
@@ -368,7 +368,7 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(reloadCharacter);
 		UI_box.addGroup(tab_group);
 	}
-	
+
 	var imageInputText:FlxUIInputText;
 	var healthIconInputText:FlxUIInputText;
 
@@ -413,7 +413,7 @@ class CharacterEditorState extends MusicBeatState
 			char.originalFlipX = !char.originalFlipX;
 			char.flipX = char.originalFlipX;
 			if(char.isPlayer) char.flipX = !char.flipX;
-			
+
 			ghostChar.flipX = char.flipX;
 		};
 
@@ -429,7 +429,7 @@ class CharacterEditorState extends MusicBeatState
 
 		positionXStepper = new FlxUINumericStepper(flipXCheckBox.x + 110, flipXCheckBox.y, 10, char.positionArray[0], -9000, 9000, 0);
 		positionYStepper = new FlxUINumericStepper(positionXStepper.x + 60, positionXStepper.y, 10, char.positionArray[1], -9000, 9000, 0);
-		
+
 		positionCameraXStepper = new FlxUINumericStepper(positionXStepper.x, positionXStepper.y + 40, 10, char.cameraPosition[0], -9000, 9000, 0);
 		positionCameraYStepper = new FlxUINumericStepper(positionYStepper.x, positionYStepper.y + 40, 10, char.cameraPosition[1], -9000, 9000, 0);
 
@@ -476,7 +476,7 @@ class CharacterEditorState extends MusicBeatState
 	function addAnimationsUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Animations";
-		
+
 		animationInputText = new FlxUIInputText(15, 85, 80, '', 8);
 		animationNameInputText = new FlxUIInputText(animationInputText.x, animationInputText.y + 35, 150, '', 8);
 		animationIndicesInputText = new FlxUIInputText(animationNameInputText.x, animationNameInputText.y + 40, 250, '', 8);
@@ -547,7 +547,7 @@ class CharacterEditorState extends MusicBeatState
 			} else {
 				char.animation.addByPrefix(newAnim.anim, newAnim.name, newAnim.fps, newAnim.loop);
 			}
-			
+
 			if(!char.animOffsets.exists(newAnim.anim)) {
 				char.addOffset(newAnim.anim, 0, 0);
 			}
@@ -713,7 +713,7 @@ class CharacterEditorState extends MusicBeatState
 		} else {
 			char.quickAnimAdd('idle', 'BF idle dance');
 		}
-		
+
 		if(lastAnim != '') {
 			char.playAnim(lastAnim, true);
 		} else {
@@ -779,6 +779,9 @@ class CharacterEditorState extends MusicBeatState
 		ghostChar.alpha = 0.6;
 
 		char = new Character(0, 0, daAnim, !isDad);
+		if(char.animationsArray[0] != null) {
+			char.playAnim(char.animationsArray[0].anim, true);
+		}
 		char.screenCenter();
 		char.debugMode = true;
 
@@ -854,7 +857,7 @@ class CharacterEditorState extends MusicBeatState
 			anims.push(anim.anim);
 			ghostAnims.push(anim.anim);
 		}
-		if(anims.length < 1) anims.push(''); //Prevents crash
+		if(anims.length < 1) anims.push('NO ANIMATIONS'); //Prevents crash
 
 		animationDropDown.setData(FlxUIDropDownMenuCustom.makeStrIdLabelArray(anims, true));
 		ghostDropDown.setData(FlxUIDropDownMenuCustom.makeStrIdLabelArray(ghostAnims, true));
@@ -887,7 +890,7 @@ class CharacterEditorState extends MusicBeatState
 			char.alpha = 1;
 		}
 		ghostChar.color = 0xFF666688;
-		
+
 		ghostChar.setGraphicSize(Std.int(ghostChar.width * char.jsonScale));
 		ghostChar.updateHitbox();
 	}
@@ -981,7 +984,7 @@ class CharacterEditorState extends MusicBeatState
 				FlxG.mouse.visible = false;
 				return;
 			}
-			
+
 			if (FlxG.keys.justPressed.R) {
 				FlxG.camera.zoom = 1;
 			}
@@ -1049,10 +1052,9 @@ class CharacterEditorState extends MusicBeatState
 						var negaMult:Int = 1;
 						if(i % 2 == 1) negaMult = -1;
 						char.animationsArray[curAnim].offsets[arrayVal] += negaMult * multiplier;
-						ghostChar.animationsArray[curAnim].offsets[arrayVal] += negaMult * multiplier;
 						char.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 						ghostChar.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
-						
+
 						char.playAnim(char.animationsArray[curAnim].anim, false);
 						if(ghostChar.animation.curAnim != null && char.animation.curAnim != null && char.animation.curAnim.name == ghostChar.animation.curAnim.name) {
 							ghostChar.playAnim(char.animation.curAnim.name, false);
@@ -1124,10 +1126,10 @@ class CharacterEditorState extends MusicBeatState
 			"scale": char.jsonScale,
 			"sing_duration": char.singDuration,
 			"healthicon": char.healthIcon,
-		
+
 			"position":	char.positionArray,
 			"camera_position": char.cameraPosition,
-		
+
 			"flip_x": char.originalFlipX,
 			"no_antialiasing": char.noAntialiasing,
 			"healthbar_colors": char.healthColorArray

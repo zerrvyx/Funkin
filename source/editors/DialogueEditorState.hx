@@ -62,7 +62,7 @@ class DialogueEditorState extends MusicBeatState
 				copyDefaultLine()
 			]
 		};
-		
+
 		character = new DialogueCharacter();
 		character.scrollFactor.set();
 		add(character);
@@ -135,7 +135,7 @@ class DialogueEditorState extends MusicBeatState
 			updateTextBox();
 			dialogueFile.dialogue[curSelected].boxState = (angryCheckbox.checked ? 'angry' : 'normal');
 		};
-		
+
 		lineInputText = new FlxUIInputText(10, speedStepper.y + 45, 200, DEFAULT_TEXT, 8);
 		blockPressWhileTypingOn.push(lineInputText);
 
@@ -201,7 +201,7 @@ class DialogueEditorState extends MusicBeatState
 		switch(character.jsonFile.dialogue_pos) {
 			case 'right':
 				character.x = FlxG.width - character.width + DialogueBoxPsych.RIGHT_CHAR_X;
-			
+
 			case 'center':
 				character.x = FlxG.width / 2;
 				character.x -= character.width / 2;
@@ -286,7 +286,13 @@ class DialogueEditorState extends MusicBeatState
 	var curSelected:Int = 0;
 	var curAnim:Int = 0;
 	var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
+	var transitioning:Bool = false;
 	override function update(elapsed:Float) {
+		if(transitioning) {
+			super.update(elapsed);
+			return;
+		}
+
 		if(character.animation.curAnim != null) {
 			if(daText.finishedText) {
 				if(character.animationIsLoop() && character.animation.curAnim.finished) {
@@ -332,6 +338,7 @@ class DialogueEditorState extends MusicBeatState
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
+				transitioning = true;
 			}
 			var negaMult:Array<Int> = [1, -1];
 			var controlAnim:Array<Bool> = [FlxG.keys.justPressed.W, FlxG.keys.justPressed.S];

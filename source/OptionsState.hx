@@ -533,7 +533,6 @@ class ControlsSubstate extends MusicBeatSubstate {
 		}
 		super.update(elapsed);
 	}
-
 	function changeSelection(change:Int = 0) {
 		do {
 			curSelected += change;
@@ -970,7 +969,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 		}
 		super.update(elapsed);
 	}
-
 	function changeSelection(change:Int = 0)
 	{
 		do {
