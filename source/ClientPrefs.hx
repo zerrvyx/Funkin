@@ -33,6 +33,7 @@ class ClientPrefs {
 	public static var dadNotesVisible:Bool = true;
 	public static var bfNotesVisible:Bool = true;
 	public static var stunsBlockInputs:Bool = false;
+	public static var shakeOnMiss:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -96,6 +97,7 @@ class ClientPrefs {
 		FlxG.save.data.dadNotesVisible = dadNotesVisible;
 		FlxG.save.data.bfNotesVisible = bfNotesVisible;
 		FlxG.save.data.stunsBlockInputs = stunsBlockInputs;
+		FlxG.save.data.shakeOnMiss = shakeOnMiss;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -200,6 +202,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.stunsBlockInputs != null) {
 			stunsBlockInputs = FlxG.save.data.stunsBlockInputs;
+		}
+		if(FlxG.save.data.shakeOnMiss != null) {
+			shakeOnMiss = FlxG.save.data.shakeOnMiss;
 		}
 
 		var save:FlxSave = new FlxSave();

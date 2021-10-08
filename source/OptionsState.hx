@@ -695,6 +695,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'FPS Counter',
 		#end
 		'Info Bar Bounces',
+		'Shake On Miss',
 		'MODIFIERS',
 		'Dad Notes Do Damage',
 		'Dad Notes Can Kill',
@@ -905,6 +906,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Stuns Block Inputs':
 						ClientPrefs.stunsBlockInputs = !ClientPrefs.stunsBlockInputs;
+
+					case 'Shake On Miss':
+						ClientPrefs.shakeOnMiss = !ClientPrefs.shakeOnMiss;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -1029,6 +1033,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, boyfriend's notes will not be shown";
 			case 'Stuns Block Inputs':
 				daText = "Pretty self-explanatory";
+			case 'Shake On Miss':
+				daText = "If checked, the camera will shake when you miss";
 		}
 		descText.text = daText;
 
@@ -1113,6 +1119,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.bfNotesVisible;
 					case 'Stuns Block Inputs':
 						daValue = ClientPrefs.stunsBlockInputs;
+					case 'Shake On Miss':
+						daValue = ClientPrefs.shakeOnMiss;
 				}
 				checkbox.daValue = daValue;
 			}
