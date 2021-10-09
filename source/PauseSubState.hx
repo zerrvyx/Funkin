@@ -153,7 +153,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.cpuControlled = false;
 					return;
 				}
-			} 
+			}
 
 			switch (daSelected)
 			{
