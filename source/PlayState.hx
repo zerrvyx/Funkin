@@ -3221,7 +3221,7 @@ class PlayState extends MusicBeatState
 		var controlHoldArray:Array<Bool> = [left, down, up, right];
 
 		// FlxG.watch.addQuick('asdfa', upP);
-		if (ClientPrefs.stunsBlockInputs || !boyfriend.stunned && generatedMusic)
+		if (!ClientPrefs.stunsBlockInputs || !boyfriend.stunned && generatedMusic)
 		{
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
