@@ -152,7 +152,7 @@ class TitleState extends MusicBeatState
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+		gfDance = new FlxSprite(FlxG.width * 0.2, FlxG.height * 0.5);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -171,8 +171,8 @@ class TitleState extends MusicBeatState
 		add(titleText);
 
 		logo = new FlxSprite().loadGraphic(Paths.image('projectfnf'));
-		logo.x = 100;
-		logo.y = 50;
+		logo.x = 400;
+		logo.y = -50;
 		logo.antialiasing = ClientPrefs.globalAntialiasing;
 		add(logo);
 
@@ -190,10 +190,10 @@ class TitleState extends MusicBeatState
 
 		credTextShit.visible = false;
 
-		logoSpr = new FlxSprite(0, FlxG.height * 0.4).loadGraphic(Paths.image('titlelogo'));
+		logoSpr = new FlxSprite(-100, FlxG.height * 0.4).loadGraphic(Paths.image('titlelogo'));
 		add(logoSpr);
 		logoSpr.visible = false;
-		logoSpr.setGraphicSize(Std.int(logoSpr.width * 0.55));
+		logoSpr.setGraphicSize(Std.int(logoSpr.width * 0.5));
 		logoSpr.updateHitbox();
 		logoSpr.screenCenter(X);
 		logoSpr.antialiasing = ClientPrefs.globalAntialiasing;
@@ -332,8 +332,8 @@ class TitleState extends MusicBeatState
 
 		if (logo != null)
 		{
-			logo.scale.set(1.05, 1.05);
-			FlxTween.tween(logo, {'scale.x': 1, 'scale.y': 1}, 0.1, {ease: FlxEase.bounceIn});
+			logo.scale.set(1, 1);
+			FlxTween.tween(logo, {'scale.x': 1.05, 'scale.y': 1.05}, 0.1, {ease: FlxEase.bounceIn});
 		}
 
 		if(gfDance != null) {
@@ -349,11 +349,11 @@ class TitleState extends MusicBeatState
 			switch (curBeat)
 			{
 				case 1:
-					createCoolText(['ProjectFNF by'], 45);
+					createCoolText(['HEJMT by'], 45);
 				// credTextShit.visible = true;
 				case 3:
-					addMoreText('l1ttleO', 45);
-					addMoreText('aflacc', 45);
+					addMoreText('RedJay4H4', 45);
+					addMoreText('MarkAwesomeness', 45);
 				// credTextShit.text += '\npresent...';
 				// credTextShit.addText();
 				case 4:
