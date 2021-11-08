@@ -1,4 +1,4 @@
-# Friday Night Funkin' - ProjectFNF
+# Friday Night Funkin' - HEJMT+
 
 ## Installation:
 
@@ -11,6 +11,10 @@ You can do this with: `haxelib install linc_luajit` on a Command prompt/PowerShe
 
 ## Discord server
 https://discord.gg/BUgn9dGgB2
+
+## HEJMT+ Credits
+* RedJay4H4 - Coding, Animation
+* MarkAwesomeness - Assistance with Coding
 
 ## Credits:
 * aflacc - Original maintainer of ProjectFNF
