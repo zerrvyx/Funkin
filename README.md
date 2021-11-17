@@ -1,4 +1,5 @@
 # Friday Night Funkin' - HEJMT+
+Dumb lil mod me and some of my friends are making. 
 
 ## Installation:
 
