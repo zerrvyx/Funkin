@@ -26,21 +26,23 @@ class PauseSubState extends MusicBeatSubstate
 		//Made this (And the other menu option sets) vertical to better visualize how it will look in game.
 		'Resume', 
 		'Restart Song', 
-		'Settings',
+		'Options',
 		'Editors', 
 		'Exit to menu'
 	];
-	var settingChoices:Array<String> = [
-		'Change Difficulty',
-		'Toggle Practice Mode',
-		'Quick Settings',
+	var optionChoices:Array<String> = [
+	    'Settings',	
+	    'Change Difficulty',
+		'Practice Mode',
 		'Botplay'
 	];
 	var difficultyChoices = [
 		'Easy', 
 		'Normal', 
 		'Hard', 
-		'Crazy'
+		/*'Crazy' 
+		(Not allowing this yet cuz i haven't done many crazy charts and knowing me I'll accidentally hit this button like 
+		a dumbass)*/
 	];
 	var quickSettings:Array<String> = [
 		'Downscroll',
@@ -102,7 +104,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		var deathTxt:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
 		deathTxt.text = "DEATH COUNT: " + PlayState.deathCounter;
-		//Changed Blueballed to Death Count so it can apply to any character.
+		// Changed Blueballed to Death Count so it can apply to any character.
 		deathTxt.scrollFactor.set();
 		deathTxt.setFormat(Paths.font('vcr.ttf'), 32);
 		deathTxt.updateHitbox();
@@ -117,6 +119,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(practiceText);
 
 		botplayText = new FlxText(20, FlxG.height - 572, 0, "BOTPLAY", 32);
+		// Changed the location of this cuz I thought it was weird for it to be on the bottom.
 		botplayText.scrollFactor.set();
 		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
 		botplayText.x = FlxG.width - (botplayText.width + 20);
@@ -164,7 +167,8 @@ class PauseSubState extends MusicBeatSubstate
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 		var back = controls.BACK;
-		var scroll; //Come back to it later.
+		var scroll; /*Come back to it later. Trying to allow scrolling for menu navigation.
+		Seems like it's a bit unnesscessary tbh- Given that it's the pause menu. idk I'll think about it more.*/ 
 		if (upP)
 		{
 			changeSelection(-1);
@@ -203,7 +207,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
-				case 'Toggle Practice Mode':
+				case 'Practice Mode':
 					PlayState.practiceMode = !PlayState.practiceMode;
 					PlayState.usedPractice = true;
 					practiceText.visible = PlayState.practiceMode;
@@ -215,13 +219,13 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.cpuControlled = !PlayState.cpuControlled;
 					PlayState.usedPractice = true;
 					botplayText.visible = PlayState.cpuControlled;
-				case 'Settings':
-					menuItems = settingChoices;
+				case 'Options':
+					menuItems = optionChoices;
 					regenMenu();
 				case 'Editors':
 				    menuItems = editors;
 					regenMenu();
-				case 'Quick Settings':
+				case 'Settings':
 					menuItems = quickSettings;
 					regenMenu();
 				case 'Middlescroll':
@@ -274,6 +278,24 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.storyDifficulty = 3;
                     FlxG.switchState(new PlayState());
 			}
+			var daText:String = '';
+			switch(menuItemsOG[curSelected]) {
+				case 'Resume':
+				daText = "Resume the song from the current point.";
+				case 'Restart':
+				daText = "Restart the song from the beginning.";
+				case 'Options':
+				daText = "See various things you can change or toggle.";
+				case 'Editors':
+				daText = "View editors that you can use to chart and make custom characters!";
+			}
+			var descText:FlxText;
+			descText = new FlxText(50, 600, 1180, "", 32);
+			descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			descText.scrollFactor.set();
+			descText.borderSize = 2.4;
+			descText.text = daText;
+			add(descText);
 		}
 	}
 

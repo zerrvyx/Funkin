@@ -21,7 +21,7 @@ class CoolUtil
 		['Easy', '-easy'],
 		['Normal', ''],
 		['Hard', '-hard'],
-		['Crazy', '-crazy']
+		//['Crazy', '-crazy'] Disabled until I find a use for them or do crazy charts.
 	];
 
 	public static function difficultyString(upper:Bool=true):String

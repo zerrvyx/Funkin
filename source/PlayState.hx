@@ -900,16 +900,16 @@ class PlayState extends MusicBeatState
 		scoreTxt.borderSize = 1.25;
 		add(scoreTxt);
 		
-		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
+		botplayTxt = new FlxText(400, timeBarBG.y + 605, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
 		add(botplayTxt);
 		if(ClientPrefs.downScroll) {
-			botplayTxt.y = timeBarBG.y - 78;
-		}
-
+			botplayTxt.y = timeBarBG.y - 613;
+		} /*Changed the vertical offset for the Botplay text to be over the healthbar. 
+		It inadvertently fixed the botplay text overlapping the arrows when middlescroll is on.*/
 		strumLineNotes.cameras = [camOther];
 		grpNoteSplashes.cameras = [camOther];
 		notes.cameras = [camOther];
