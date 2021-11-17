@@ -1,0 +1,32 @@
+{
+	"dialogue": [
+		{
+			"expression": "talk",
+			"text": "Well, well, well, what have we got here?",
+			"boxState": "normal",
+			"portrait": "psychic",
+			"speed": 0.05
+		},
+		{
+			"expression": "talk",
+			"text": "Beee!",
+			"boxState": "normal",
+			"speed": 0.05,
+			"portrait": "bf"
+		},
+		{
+			"expression": "angry",
+			"text": "We should just KILL you, but- what the hell it's been a boring day.",
+			"boxState": "normal",
+			"speed": 0.045,
+			"portrait": "psychic"
+		},
+		{
+			"expression": "talk",
+			"text": "Let's see what you got!",
+			"boxState": "normal",
+			"speed": 0.05,
+			"portrait": "psychic"
+		}
+	]
+}

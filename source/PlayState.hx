@@ -62,14 +62,15 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['F', 0.4], //From 20% to 39%
-		['E', 0.5], //From 40% to 49%
-		['D', 0.6], //From 50% to 59%
-		['C', 0.7], //From 60% to 68%
-		['B', 0.8], //From 70% to 79%
-		['A', 0.9], //From 80% to 89%
-		['S', 1], //From 90% to 99%
-		['SFC', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['F (WTF-)', 0.4], //From 20% to 39%
+		['E (Damn..)', 0.5], //From 40% to 49%
+		['D (Uhhhh..)', 0.6], //From 50% to 59%
+		['C (Eh..)', 0.69], //From 60% to 68%
+		['N (Nice)', 0.7], //From 60% to 68%
+		['B (Good.)', 0.8], //From 70% to 79%
+		['A (Great!)', 0.9], //From 80% to 89%
+		['S (Sick!!)', 1], //From 90% to 99%
+		['SFC (Perfect!!!)', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 
 	#if (haxe >= "4.0.0")
@@ -167,6 +168,8 @@ class PlayState extends MusicBeatState
 	var botplaySine:Float = 0;
 	var botplayTxt:FlxText;
 
+	var songinfoTxt:FlxText;
+
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -216,7 +219,7 @@ class PlayState extends MusicBeatState
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
-	var versionTxt:FlxText;
+
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -896,14 +899,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		add(scoreTxt);
-
-		versionTxt = new FlxText(0, FlxG.height - 24, 0, SONG.song + " - " +
-			CoolUtil.difficultyString(false) + " | ProjectFNF " +
-			MainMenuState.projectFnfVersion, 16);
-		versionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		versionTxt.scrollFactor.set();
-		add(versionTxt);
-
+		
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -922,7 +918,6 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
-		versionTxt.cameras = [camOther];
 		botplayTxt.cameras = [camOther];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
@@ -1989,12 +1984,12 @@ class PlayState extends MusicBeatState
 
 		var healthTxt = '';
 		var accuracyTxt = '';
+		var curSongTxt = '';
 		if (ClientPrefs.advancedScoreTxt) {
 			healthTxt = ' | Health: ' + FlxMath.roundDecimal(healthPercentage, 0) + '%';
 			accuracyTxt = ' | Accuracy: ' + accuracyPercentage + '%';
 		}
 		scoreTxt.text = 'Score: ' + songScore + healthTxt + ' | Misses: ' + songMisses + accuracyTxt + ' | Rating: ' + fc + ratingString + suffix;
-
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
@@ -2032,6 +2027,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (FlxG.keys.justPressed.SEVEN && !endingSong && !inCutscene)
+			//This allows the Charting State to be accessed from Playstate lol
 		{
 			persistentUpdate = false;
 			paused = true;
@@ -2064,16 +2060,24 @@ class PlayState extends MusicBeatState
 			health = maxHealth;
 
 		healthPercentage = health / 0.02;
-
-		if (healthPercentage < 20)
+		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
-		else
+		else if (healthBar.percent > 20 && healthBar.percent < 80)
 			iconP1.animation.curAnim.curFrame = 0;
-
-		if (healthPercentage > 80)
-			iconP2.animation.curAnim.curFrame = 1;
-		else
-			iconP2.animation.curAnim.curFrame = 0;
+		else if (healthBar.percent > 80)
+			iconP1.animation.curAnim.curFrame = 2;
+	
+		switch(SONG.player2)
+		{
+			default:
+				if (healthBar.percent < 20)
+					iconP2.animation.curAnim.curFrame = 2;
+				else if (healthBar.percent > 20 && healthBar.percent < 80)
+					iconP2.animation.curAnim.curFrame = 0;
+				else if (healthBar.percent > 80)
+					iconP2.animation.curAnim.curFrame = 1;
+		}
+		
 
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
 			persistentUpdate = false;

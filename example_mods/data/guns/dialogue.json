@@ -1,0 +1,18 @@
+{
+	"dialogue": [
+		{
+			"speed": 0.04,
+			"portrait": "psychic",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Ha, pretty tight bars for a little dude that's simping over an ugly, boring little teenager that wears her mom's clothes."
+		},
+		{
+			"speed": 0.09,
+			"portrait": "psychic",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "HA! Hehehe..."
+		}
+	]
+}

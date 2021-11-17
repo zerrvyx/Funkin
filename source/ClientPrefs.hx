@@ -39,6 +39,8 @@ class ClientPrefs {
 	public static var playHitSounds:Bool = false;
 	public static var maxOptimization:Bool = false;
 	public static var missesLowerMaxHealth:Bool = false;
+	public static var victoryHealthIcons:Bool = false;
+	public static var showSongTitle:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -77,6 +79,8 @@ class ClientPrefs {
 	public static var lastControls:Array<FlxKey> = defaultKeys.copy();
 
 	public static function saveSettings() {
+		FlxG.save.data.victoryHealthIcons = victoryHealthIcons;
+		FlxG.save.data.showSongTitle = showSongTitle;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.advancedScoreTxt = advancedScoreTxt;
@@ -230,6 +234,10 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.missesLowerMaxHealth != null) {
 			missesLowerMaxHealth = FlxG.save.data.missesLowerMaxHealth;
+		}
+		// Volume Remembering Shit
+		if(FlxG.save.data.volume != null) {
+			FlxG.sound.volume = FlxG.save.data.volume;
 		}
 
 		var save:FlxSave = new FlxSave();

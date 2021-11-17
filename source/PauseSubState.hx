@@ -1,5 +1,6 @@
 package;
 
+import editors.CharacterEditorState;
 import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -21,16 +22,37 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Settings', 'Exit to menu'];
+	var menuItemsOG:Array<String> = [ 
+		//Made this (And the other menu option sets) vertical to better visualize how it will look in game.
+		'Resume', 
+		'Restart Song', 
+		'Settings',
+		'Editors', 
+		'Exit to menu'
+	];
 	var settingChoices:Array<String> = [
 		'Change Difficulty',
 		'Toggle Practice Mode',
 		'Quick Settings',
-		'Botplay',
-		'BACK'
+		'Botplay'
 	];
-	var difficultyChoices = ['Easy', 'Normal', 'Hard', 'BACK'];
-	var quickSettings:Array<String> = ['Downscroll', 'Middlescroll', 'Info Bar Bounces', 'Max Optimization', 'BACK'];
+	var difficultyChoices = [
+		'Easy', 
+		'Normal', 
+		'Hard', 
+		'Crazy'
+	];
+	var quickSettings:Array<String> = [
+		'Downscroll',
+	    'Middlescroll',
+	    'Ghost Tapping',
+	    'Info Bar Bounces', 
+	    'Max Optimization'
+	];
+	var editors:Array<String> = [
+		'Chart Editor', 
+		'Character Editor'
+	];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -69,6 +91,8 @@ class PauseSubState extends MusicBeatSubstate
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
+		var ControlInfo:FlxText = new FlxText();
+
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
 		levelDifficulty.text += CoolUtil.difficultyString();
 		levelDifficulty.scrollFactor.set();
@@ -76,12 +100,13 @@ class PauseSubState extends MusicBeatSubstate
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
-		var blueballedTxt:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
-		blueballedTxt.text = "Blueballed: " + PlayState.deathCounter;
-		blueballedTxt.scrollFactor.set();
-		blueballedTxt.setFormat(Paths.font('vcr.ttf'), 32);
-		blueballedTxt.updateHitbox();
-		add(blueballedTxt);
+		var deathTxt:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
+		deathTxt.text = "DEATH COUNT: " + PlayState.deathCounter;
+		//Changed Blueballed to Death Count so it can apply to any character.
+		deathTxt.scrollFactor.set();
+		deathTxt.setFormat(Paths.font('vcr.ttf'), 32);
+		deathTxt.updateHitbox();
+		add(deathTxt);
 
 		practiceText = new FlxText(20, 15 + 101, 0, "PRACTICE MODE", 32);
 		practiceText.scrollFactor.set();
@@ -91,7 +116,7 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.visible = PlayState.practiceMode;
 		add(practiceText);
 
-		botplayText = new FlxText(20, FlxG.height - 40, 0, "BOTPLAY", 32);
+		botplayText = new FlxText(20, FlxG.height - 572, 0, "BOTPLAY", 32);
 		botplayText.scrollFactor.set();
 		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
 		botplayText.x = FlxG.width - (botplayText.width + 20);
@@ -99,18 +124,18 @@ class PauseSubState extends MusicBeatSubstate
 		botplayText.visible = PlayState.cpuControlled;
 		add(botplayText);
 
-		blueballedTxt.alpha = 0;
+		deathTxt.alpha = 0;
 		levelDifficulty.alpha = 0;
 		levelInfo.alpha = 0;
 
 		levelInfo.x = FlxG.width - (levelInfo.width + 20);
 		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
-		blueballedTxt.x = FlxG.width - (blueballedTxt.width + 20);
+		deathTxt.x = FlxG.width - (deathTxt.width + 20);
 
 		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
-		FlxTween.tween(blueballedTxt, {alpha: 1, y: blueballedTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		FlxTween.tween(deathTxt, {alpha: 1, y: deathTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
@@ -138,7 +163,8 @@ class PauseSubState extends MusicBeatSubstate
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
-
+		var back = controls.BACK;
+		var scroll; //Come back to it later.
 		if (upP)
 		{
 			changeSelection(-1);
@@ -147,7 +173,11 @@ class PauseSubState extends MusicBeatSubstate
 		{
 			changeSelection(1);
 		}
-
+		if (back)
+        {
+		menuItems = menuItemsOG;
+		regenMenu();
+		}
 		if (accepted)
 		{
 			var daSelected:String = menuItems[curSelected];
@@ -188,6 +218,9 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Settings':
 					menuItems = settingChoices;
 					regenMenu();
+				case 'Editors':
+				    menuItems = editors;
+					regenMenu();
 				case 'Quick Settings':
 					menuItems = quickSettings;
 					regenMenu();
@@ -197,12 +230,19 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Downscroll':
 					ClientPrefs.downScroll = !ClientPrefs.downScroll;
 					MusicBeatState.switchState(new PlayState());
+				case 'Ghost Tapping':
+					ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
+					MusicBeatState.switchState(new PlayState());
 				case 'Info Bar Bounces':
 					ClientPrefs.infoBarBounces = !ClientPrefs.infoBarBounces;
 					MusicBeatState.switchState(new PlayState());
 				case 'Max Optimization':
 					ClientPrefs.maxOptimization = !ClientPrefs.maxOptimization;
 					MusicBeatState.switchState(new PlayState());
+				case 'Chart Editor':
+				    MusicBeatState.switchState(new ChartingState());
+				case 'Character Editor':
+					MusicBeatState.switchState(new CharacterEditorState());
 				case 'Exit to menu':
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
@@ -229,11 +269,10 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Hard':
 					PlayState.SONG = Song.loadFromJson(PlayState.SONG.song.toLowerCase() + "-hard", PlayState.SONG.song.toLowerCase());
 					PlayState.storyDifficulty = 2;
-
-					FlxG.switchState(new PlayState());
-				case 'BACK':
-					menuItems = menuItemsOG;
-					regenMenu();
+				case 'Crazy':
+					PlayState.SONG = Song.loadFromJson(PlayState.SONG.song.toLowerCase() + "-crazy", PlayState.SONG.song.toLowerCase());
+					PlayState.storyDifficulty = 3;
+                    FlxG.switchState(new PlayState());
 			}
 		}
 	}

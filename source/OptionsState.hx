@@ -691,6 +691,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Note Splashes',
 		'Hide Song Length',
 		'Advanced Info Bar',
+		'Show Song Title',
 		'Shake On Miss',
 		'Hide HUD',
 		'Play Miss Animations',
@@ -929,6 +930,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Misses Lower Max Health':
 						ClientPrefs.missesLowerMaxHealth = !ClientPrefs.missesLowerMaxHealth;
+					case 'Show Song Title':
+						ClientPrefs.showSongTitle = !ClientPrefs.showSongTitle;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -1065,6 +1068,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If checked, everything except the UI will be hidden";
 			case 'Misses Lower Max Health':
 				daText = "If checked, missing a note will lower your maximum health";
+			case 'Show Song Title':
+				daText = "If checked, shows the current songs title.";
 		}
 		descText.text = daText;
 
@@ -1161,6 +1166,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.maxOptimization;
 					case 'Misses Lower Max Health':
 						daValue = ClientPrefs.missesLowerMaxHealth;
+					case 'Show Song Title':
+						daValue = ClientPrefs.showSongTitle;
 				}
 				checkbox.daValue = daValue;
 			}

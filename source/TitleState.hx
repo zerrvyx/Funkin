@@ -349,7 +349,7 @@ class TitleState extends MusicBeatState
 			switch (curBeat)
 			{
 				case 1:
-					createCoolText(['HEJMT by'], 45);
+					createCoolText(['HEJMT+ by'], 45);
 				// credTextShit.visible = true;
 				case 3:
 					addMoreText('RedJay4H4', 45);
@@ -386,13 +386,13 @@ class TitleState extends MusicBeatState
 				// credTextShit.text = "Friday";
 				// credTextShit.screenCenter();
 				case 13:
-					addMoreText('Friday');
+					addMoreText('HE');
 				// credTextShit.visible = true;
 				case 14:
-					addMoreText('Night');
+					addMoreText('JMT');
 				// credTextShit.text += '\nNight';
 				case 15:
-					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					addMoreText('+'); // credTextShit.text += '\nFunkin';
 
 				case 16:
 					skipIntro();
