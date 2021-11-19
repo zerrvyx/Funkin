@@ -50,7 +50,9 @@ class PauseSubState extends MusicBeatSubstate
 	    'Ghost Tapping',
 	    'Info Bar Bounces', 
 	    'Max Optimization',
-		'Dad Notes Do Damage'
+		'Dad Notes Do Damage',
+		'Show Song Title',
+		'Hud Bounces'
 	];
 	var editors:Array<String> = [
 		'Chart Editor', 
@@ -243,6 +245,12 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.switchState(new PlayState());
 				case 'Max Optimization':
 					ClientPrefs.maxOptimization = !ClientPrefs.maxOptimization;
+					MusicBeatState.switchState(new PlayState());
+				case 'Show Song Title':
+					ClientPrefs.showSongTitle = !ClientPrefs.showSongTitle;
+					MusicBeatState.switchState(new PlayState());
+				case 'Hud Bounces':
+					ClientPrefs.bounceyHud = !ClientPrefs.bounceyHud;
 					MusicBeatState.switchState(new PlayState());
 				case 'Dad Notes Do Damage':
 					ClientPrefs.dadNotesDoDamage = !ClientPrefs.dadNotesDoDamage;

@@ -216,6 +216,7 @@ class PlayState extends MusicBeatState
 	public var songMisses:Int = 0;
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	public var curSongTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -899,6 +900,19 @@ class PlayState extends MusicBeatState
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		add(scoreTxt);
+        
+		
+		curSongTxt = new FlxText(0, FlxG.height - 24, 0, SONG.song + " - " +
+			CoolUtil.difficultyString(false));
+		curSongTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		curSongTxt.scrollFactor.set();
+		curSongTxt.borderSize = 1.25;
+		add(curSongTxt);
+		if(ClientPrefs.showSongTitle) {
+			curSongTxt.visible = true;
+		} else {
+			curSongTxt.visible = false;
+		}
 		
 		botplayTxt = new FlxText(400, timeBarBG.y + 605, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -909,21 +923,38 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) {
 			botplayTxt.y = timeBarBG.y - 613;
 		} /*Changed the vertical offset for the Botplay text to be over the healthbar. 
-		It inadvertently fixed the botplay text overlapping the arrows when middlescroll is on.*/
-		strumLineNotes.cameras = [camOther];
-		grpNoteSplashes.cameras = [camOther];
-		notes.cameras = [camOther];
+		It inadvertently fixed the botplay text overlapping the arrows when middlescroll is on lmao.*/
+		if(ClientPrefs.bounceyHud) {
+		strumLineNotes.cameras = [camHUD];
+		grpNoteSplashes.cameras = [camHUD];
+		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
-		botplayTxt.cameras = [camOther];
+		curSongTxt.cameras = [camHUD];
+		botplayTxt.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camOther];
-
+		} else { //To-Do: Make each thing toggleable on their own maybe? Idk.
+		strumLineNotes.cameras = [camOther];
+		grpNoteSplashes.cameras = [camOther];
+		notes.cameras = [camOther];
+		healthBar.cameras = [camOther];
+		healthBarBG.cameras = [camOther];
+		iconP1.cameras = [camOther];
+		iconP2.cameras = [camOther];
+		scoreTxt.cameras = [camOther];
+		curSongTxt.cameras = [camOther];
+		botplayTxt.cameras = [camOther];
+		timeBar.cameras = [camOther];
+		timeBarBG.cameras = [camOther];
+		timeTxt.cameras = [camOther];
+		doof.cameras = [camOther];	
+		}
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
@@ -1984,7 +2015,6 @@ class PlayState extends MusicBeatState
 
 		var healthTxt = '';
 		var accuracyTxt = '';
-		var curSongTxt = '';
 		if (ClientPrefs.advancedScoreTxt) {
 			healthTxt = ' | Health: ' + FlxMath.roundDecimal(healthPercentage, 0) + '%';
 			accuracyTxt = ' | Accuracy: ' + accuracyPercentage + '%';
@@ -1995,7 +2025,8 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 		botplayTxt.visible = cpuControlled;
-
+	    
+	    
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', []);

@@ -692,11 +692,13 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Hide Song Length',
 		'Advanced Info Bar',
 		'Show Song Title',
+		'Hud Bounces',
 		'Shake On Miss',
 		'Hide HUD',
 		'Play Miss Animations',
 		'Flashing Lights',
 		'Camera Zooms',
+		'Show Song Title',
 		#if !mobile
 		'FPS Counter',
 		#end
@@ -932,6 +934,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.missesLowerMaxHealth = !ClientPrefs.missesLowerMaxHealth;
 					case 'Show Song Title':
 						ClientPrefs.showSongTitle = !ClientPrefs.showSongTitle;
+					case 'Hud Bounces':
+						ClientPrefs.bounceyHud = !ClientPrefs.bounceyHud;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -1070,6 +1074,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If checked, missing a note will lower your maximum health";
 			case 'Show Song Title':
 				daText = "If checked, shows the current songs title.";
+			case 'Hud Bounces':
+				daText = "If checked, the hud bounces to the beat.";
 		}
 		descText.text = daText;
 
@@ -1168,6 +1174,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.missesLowerMaxHealth;
 					case 'Show Song Title':
 						daValue = ClientPrefs.showSongTitle;
+					case 'Hud Bounces':
+						daValue = ClientPrefs.bounceyHud;
 				}
 				checkbox.daValue = daValue;
 			}
