@@ -1,81 +1,81 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "idle",
+			"loop": false,
 			"fps": 30,
-			"name": "Tankman Idle Dance",
-			"indices": []
+			"anim": "idle",
+			"indices": [],
+			"name": "Tankman Idle Dance"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				78,
-				-78
+				-108
 			],
+			"loop": false,
+			"fps": 30,
 			"anim": "singDOWN",
-			"fps": 30,
-			"name": "Tankman DOWN note",
-			"indices": []
+			"indices": [],
+			"name": "Tankman DOWN note"
 		},
 		{
-			"loop": false,
 			"offsets": [
-				80,
-				16
-			],
-			"anim": "singLEFT",
-			"fps": 30,
-			"name": "Tankman Right Note",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				0,
-				-27
-			],
-			"anim": "singRIGHT",
-			"fps": 30,
-			"name": "Tankman Note Left",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				-15,
+				90,
 				-14
 			],
-			"anim": "singUP-alt",
-			"fps": 26,
-			"name": "TANKMAN UGH",
-			"indices": []
-		},
-		{
 			"loop": false,
-			"offsets": [
-				43,
-				46
-			],
-			"anim": "singUP",
 			"fps": 30,
-			"name": "Tankman UP",
-			"indices": []
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "Tankman Right Note"
 		},
 		{
+			"offsets": [
+				-30,
+				-27
+			],
 			"loop": false,
+			"fps": 30,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "Tankman Note Left"
+		},
+		{
+			"offsets": [
+				-15,
+				-12
+			],
+			"loop": false,
+			"fps": 26,
+			"anim": "singUP-alt",
+			"indices": [],
+			"name": "TANKMAN UGH"
+		},
+		{
+			"offsets": [
+				47,
+				53
+			],
+			"loop": false,
+			"fps": 30,
+			"anim": "singUP",
+			"indices": [],
+			"name": "Tankman UP"
+		},
+		{
 			"offsets": [
 				0,
 				15
 			],
-			"anim": "singDOWN-alt",
+			"loop": false,
 			"fps": 25,
-			"name": "PRETTY GOOD tankman",
-			"indices": []
+			"anim": "singDOWN-alt",
+			"indices": [],
+			"name": "PRETTY GOOD tankman"
 		}
 	],
 	"no_antialiasing": false,

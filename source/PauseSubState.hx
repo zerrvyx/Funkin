@@ -49,7 +49,8 @@ class PauseSubState extends MusicBeatSubstate
 	    'Middlescroll',
 	    'Ghost Tapping',
 	    'Info Bar Bounces', 
-	    'Max Optimization'
+	    'Max Optimization',
+		'Dad Notes Do Damage'
 	];
 	var editors:Array<String> = [
 		'Chart Editor', 
@@ -243,6 +244,9 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Max Optimization':
 					ClientPrefs.maxOptimization = !ClientPrefs.maxOptimization;
 					MusicBeatState.switchState(new PlayState());
+				case 'Dad Notes Do Damage':
+					ClientPrefs.dadNotesDoDamage = !ClientPrefs.dadNotesDoDamage;
+					MusicBeatState.switchState(new PlayState());
 				case 'Chart Editor':
 				    MusicBeatState.switchState(new ChartingState());
 				case 'Character Editor':
@@ -295,7 +299,7 @@ class PauseSubState extends MusicBeatSubstate
 			descText.scrollFactor.set();
 			descText.borderSize = 2.4;
 			descText.text = daText;
-			add(descText);
+			//add(descText); Doesn't work properly ;-;
 		}
 	}
 

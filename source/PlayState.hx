@@ -3202,7 +3202,7 @@ class PlayState extends MusicBeatState
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 			numScore.cameras = [camOther];
 
-			if (combo >= 10 || combo == 0)
+			if (combo >= 2 || combo == 2)
 				add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
