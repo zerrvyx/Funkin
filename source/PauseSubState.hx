@@ -280,11 +280,11 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Normal':
 					PlayState.SONG = Song.loadFromJson(PlayState.SONG.song.toLowerCase(), PlayState.SONG.song.toLowerCase());
 					PlayState.storyDifficulty = 1;
-
 					FlxG.switchState(new PlayState());
 				case 'Hard':
 					PlayState.SONG = Song.loadFromJson(PlayState.SONG.song.toLowerCase() + "-hard", PlayState.SONG.song.toLowerCase());
 					PlayState.storyDifficulty = 2;
+					FlxG.switchState(new PlayState());
 				case 'Crazy':
 					PlayState.SONG = Song.loadFromJson(PlayState.SONG.song.toLowerCase() + "-crazy", PlayState.SONG.song.toLowerCase());
 					PlayState.storyDifficulty = 3;
