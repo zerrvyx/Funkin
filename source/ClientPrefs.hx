@@ -39,9 +39,10 @@ class ClientPrefs {
 	public static var playHitSounds:Bool = false;
 	public static var maxOptimization:Bool = false;
 	public static var missesLowerMaxHealth:Bool = false;
-	public static var victoryHealthIcons:Bool = false;
 	public static var showSongTitle:Bool = false;
 	public static var bounceyHud:Bool = false;
+	public static var devSettings:Bool = false;
+	public static var devTxt:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -80,9 +81,7 @@ class ClientPrefs {
 	public static var lastControls:Array<FlxKey> = defaultKeys.copy();
 
 	public static function saveSettings() {
-		FlxG.save.data.victoryHealthIcons = victoryHealthIcons;
-		FlxG.save.data.showSongTitle = showSongTitle;
-		FlxG.save.data.bounceyHud = bounceyHud;
+
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.advancedScoreTxt = advancedScoreTxt;
@@ -114,6 +113,10 @@ class ClientPrefs {
 		FlxG.save.data.playHitSounds = playHitSounds;
 		FlxG.save.data.maxOptimization = maxOptimization;
 		FlxG.save.data.missesLowerMaxHealth = missesLowerMaxHealth;
+     	FlxG.save.data.showSongTitle = showSongTitle;
+		FlxG.save.data.bounceyHud = bounceyHud;
+        FlxG.save.data.devSettings = devSettings;
+		FlxG.save.data.devTxt = devTxt;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -247,6 +250,13 @@ class ClientPrefs {
 		if(FlxG.save.data.bounceyHud != null) {
 			bounceyHud = FlxG.save.data.bounceyHud;
 		}
+		if(FlxG.save.data.devSettings != null) {
+			devSettings = FlxG.save.data.devSettings;
+		}
+		if(FlxG.save.data.devTxt != null) {
+			devTxt = FlxG.save.data.devTxt;
+		}
+		
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls', 'ninjamuffin99');

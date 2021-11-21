@@ -147,7 +147,7 @@ class PlayState extends MusicBeatState
 	public var health:Float;
 	public var healthPercentage:Float;
 	public var maxHealth:Float = 2;
-	public var combo:Int = 0;
+	public var combo:Int = 1;
 
 	private var healthBarBG:AttachedSprite;
 	public var healthBar:FlxBar;
@@ -217,6 +217,7 @@ class PlayState extends MusicBeatState
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
 	public var curSongTxt:FlxText;
+	public var devTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -904,7 +905,7 @@ class PlayState extends MusicBeatState
 		
 		curSongTxt = new FlxText(0, FlxG.height - 24, 0, SONG.song + " - " +
 			CoolUtil.difficultyString(false));
-		curSongTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		curSongTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		curSongTxt.scrollFactor.set();
 		curSongTxt.borderSize = 1.25;
 		add(curSongTxt);
@@ -2056,8 +2057,10 @@ class PlayState extends MusicBeatState
 				#end
 			}
 		}
-
+        if (ClientPrefs.devSettings) {
 		if (FlxG.keys.justPressed.SEVEN && !endingSong && !inCutscene)
+		
+		
 			//This allows the Charting State to be accessed from Playstate lol
 		{
 			persistentUpdate = false;
@@ -2065,7 +2068,7 @@ class PlayState extends MusicBeatState
 			cancelFadeTween();
 			CustomFadeTransition.nextCamera = camOther;
 			MusicBeatState.switchState(new ChartingState());
-
+		}
 			#if desktop
 			DiscordClient.changePresence("Chart Editor", null, null, true);
 			#end
@@ -2108,8 +2111,7 @@ class PlayState extends MusicBeatState
 				else if (healthBar.percent > 80)
 					iconP2.animation.curAnim.curFrame = 1;
 		}
-		
-
+        if (ClientPrefs.devSettings) {
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
 			persistentUpdate = false;
 			paused = true;
@@ -2117,7 +2119,7 @@ class PlayState extends MusicBeatState
 			CustomFadeTransition.nextCamera = camOther;
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
-
+	    }
 		if (startingSong)
 		{
 			if (startedCountdown)
@@ -2168,6 +2170,7 @@ class PlayState extends MusicBeatState
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 		}
+		
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
@@ -3233,7 +3236,7 @@ class PlayState extends MusicBeatState
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 			numScore.cameras = [camOther];
 
-			if (combo >= 2 || combo == 2)
+			if (combo >= 1 || combo == 0)
 				add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
@@ -3454,7 +3457,7 @@ class PlayState extends MusicBeatState
 			{
 				gf.playAnim('sad');
 			}
-			combo = 0;
+			combo = 1;
 
 			if(!practiceMode) songScore -= 10;
 			if(!endingSong) {

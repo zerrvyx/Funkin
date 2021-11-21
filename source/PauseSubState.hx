@@ -22,12 +22,18 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
+	
 	var menuItemsOG:Array<String> = [ 
 		//Made this (And the other menu option sets) vertical to better visualize how it will look in game.
 		'Resume', 
 		'Restart Song', 
 		'Options',
-		'Editors', 
+		'Exit to menu',
+	];
+	var menuItemsOGalt:Array<String> = [
+		'Resume',
+		'Restart Song',
+		'Options',
 		'Exit to menu'
 	];
 	var optionChoices:Array<String> = [
@@ -52,7 +58,9 @@ class PauseSubState extends MusicBeatSubstate
 	    'Max Optimization',
 		'Dad Notes Do Damage',
 		'Show Song Title',
-		'Hud Bounces'
+		'Hud Bounces',
+		"Dev Settings",
+		"Dev Text"
 	];
 	var editors:Array<String> = [
 		'Chart Editor', 
@@ -63,6 +71,7 @@ class PauseSubState extends MusicBeatSubstate
 	var pauseMusic:FlxSound;
 	var practiceText:FlxText;
 	var botplayText:FlxText;
+	var devTxt:FlxText;
 
 	public static var transCamera:FlxCamera;
 
@@ -96,6 +105,17 @@ class PauseSubState extends MusicBeatSubstate
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
+		devTxt = new FlxText(690, FlxG.height - 22, 0, "Press '7' to open chart editor, and '8' to open character editor.");
+		devTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		devTxt.scrollFactor.set();
+		devTxt.borderSize = 1.25;
+		add(devTxt);
+		if(ClientPrefs.devTxt) {
+			devTxt.visible = true;
+		} else {
+			devTxt.visible = false;
+		}
+
 		var ControlInfo:FlxText = new FlxText();
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
@@ -120,6 +140,9 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.updateHitbox();
 		practiceText.visible = PlayState.practiceMode;
 		add(practiceText);
+        
+
+
 
 		botplayText = new FlxText(20, FlxG.height - 572, 0, "BOTPLAY", 32);
 		// Changed the location of this cuz I thought it was weird for it to be on the bottom.
@@ -165,7 +188,7 @@ class PauseSubState extends MusicBeatSubstate
 			pauseMusic.volume += 0.01 * elapsed;
 
 		super.update(elapsed);
-
+      
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
@@ -184,6 +207,18 @@ class PauseSubState extends MusicBeatSubstate
         {
 		menuItems = menuItemsOG;
 		regenMenu();
+		}
+		if (ClientPrefs.devSettings) {
+			if (FlxG.keys.justPressed.SEVEN)
+			{
+				MusicBeatState.switchState(new ChartingState());
+			}
+		}
+		if (ClientPrefs.devSettings) {
+			if (FlxG.keys.justPressed.EIGHT) 
+			{
+				MusicBeatState.switchState(new CharacterEditorState());
+			}
 		}
 		if (accepted)
 		{
@@ -226,8 +261,10 @@ class PauseSubState extends MusicBeatSubstate
 					menuItems = optionChoices;
 					regenMenu();
 				case 'Editors':
+				if(ClientPrefs.devSettings) {
 				    menuItems = editors;
 					regenMenu();
+				}
 				case 'Settings':
 					menuItems = quickSettings;
 					regenMenu();
@@ -251,6 +288,12 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.switchState(new PlayState());
 				case 'Hud Bounces':
 					ClientPrefs.bounceyHud = !ClientPrefs.bounceyHud;
+					MusicBeatState.switchState(new PlayState());
+				case 'Dev Settings':
+				    ClientPrefs.devSettings = !ClientPrefs.devSettings;
+					MusicBeatState.switchState(new PlayState());
+				case 'Dev Text':
+					ClientPrefs.devTxt = !ClientPrefs.devTxt;
 					MusicBeatState.switchState(new PlayState());
 				case 'Dad Notes Do Damage':
 					ClientPrefs.dadNotesDoDamage = !ClientPrefs.dadNotesDoDamage;

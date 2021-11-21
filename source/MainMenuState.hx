@@ -30,6 +30,7 @@ class MainMenuState extends MusicBeatState
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
+	var devTxt:FlxText;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 
@@ -39,6 +40,14 @@ class MainMenuState extends MusicBeatState
 	var bg:FlxSprite;
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
+
+	/*private var char1:Character = null;
+	private var char2:Character = null;
+	private var char3:Character = null;
+	private var char4:Character = null;
+	private var char5:Character = null;
+	private var char6:Character = null;*/
+	private var FunkinLogo:Character = null;
 
 	override function create()
 	{
@@ -99,7 +108,8 @@ class MainMenuState extends MusicBeatState
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
-			menuItem.screenCenter(X);
+			//menuItem.screenCenter(X);
+			menuItem.x += 100;
 			menuItems.add(menuItem);
 			var scr:Float = (optionShit.length - 4) * 0.135;
 			if(optionShit.length < 6) scr = 0;
@@ -111,22 +121,40 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 93, 0, "HEJMT+ v" + hejmtVersion, 12);
+        //TO-DO: Add Logo to main menu.
+
+
+		var versionShit:FlxText = new FlxText(975, FlxG.height - 93, 0, "HEJMT+ v" + hejmtVersion, 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.borderSize = 1.25;
 		add(versionShit);
-        var versionShit:FlxText = new FlxText(12, FlxG.height - 70, 0, "ProjectFNF v" + projectFnfVersion, 12);
+        var versionShit:FlxText = new FlxText(1018, FlxG.height - 70, 0, "ProjectFNF v" + projectFnfVersion, 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.borderSize = 1.25;
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 47, 0, "Psych Engine v" + psychEngineVersion + "", 12);
+		var versionShit:FlxText = new FlxText(1040, FlxG.height - 47, 0, "Psych Engine v" + psychEngineVersion + "", 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.borderSize = 1.25;
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(1080, FlxG.height - 24, 0, "FNF v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.borderSize = 1.25;
 		add(versionShit);
+
+		devTxt = new FlxText(932, FlxG.height - 717, 0, "Press '7' to open master editors menu.");
+		devTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		devTxt.scrollFactor.set();
+		devTxt.borderSize = 1.25;
+		add(devTxt);
+		if(ClientPrefs.devTxt) {
+			devTxt.visible = true;
+		} else {
+			devTxt.visible = false;
+		}
 
 		// NG.core.calls.event.logEvent('swag').send();
 
@@ -243,11 +271,13 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if desktop
-			else if (FlxG.keys.justPressed.SEVEN)
+			if (ClientPrefs.devSettings) {
+			if (FlxG.keys.justPressed.SEVEN)
 			{
 				selectedSomethin = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
+		    } 
 			#end
 		}
 
@@ -255,7 +285,7 @@ class MainMenuState extends MusicBeatState
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.screenCenter(X);
+			//spr.screenCenter(X);
 		});
 	}
 
@@ -292,5 +322,10 @@ class MainMenuState extends MusicBeatState
 		super.beatHit();
 		if (curBeat % 4 == 0 && ClientPrefs.camZooms)
 			FlxG.camera.zoom = 1.015;
+		if (FunkinLogo != null)
+			{
+				FunkinLogo.scale.set(1, 1);
+				FlxTween.tween(FunkinLogo, {'scale.x': 1.05, 'scale.y': 1.05}, 0.1, {ease: FlxEase.bounceIn});
+			}
 	}
 }

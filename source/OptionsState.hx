@@ -664,7 +664,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 	static var unselectableOptions:Array<String> = [
 		'GRAPHICS',
 		'GAMEPLAY',
-		'MODIFIERS'
+		'MODIFIERS',
+		'DEV'
 	];
 	static var noCheckbox:Array<String> = [
 		'Framerate',
@@ -711,7 +712,11 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Misses Lower Max Health',
 		'No Health Gain',
 		'Dad Notes Visible',
-		'BF Notes Visible'
+		'BF Notes Visible',
+		'DEV',
+		'Dev Settings',
+		'Dev Text'
+
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -936,6 +941,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.showSongTitle = !ClientPrefs.showSongTitle;
 					case 'Hud Bounces':
 						ClientPrefs.bounceyHud = !ClientPrefs.bounceyHud;
+					case 'Dev Settings':
+						ClientPrefs.devSettings = !ClientPrefs.devSettings;
+					case 'Dev Text':
+						ClientPrefs.devTxt = !ClientPrefs.devTxt;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -1076,6 +1085,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If checked, shows the current songs title.";
 			case 'Hud Bounces':
 				daText = "If checked, the hud bounces to the beat.";
+			case 'Dev Settings':
+				daText = "If checked, allows for various developer tools to be used.";
+			case 'Dev Text':
+				daText = "If checked, shows text that can help you figure out how to use the developer tools.";
 		}
 		descText.text = daText;
 
@@ -1176,6 +1189,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.showSongTitle;
 					case 'Hud Bounces':
 						daValue = ClientPrefs.bounceyHud;
+					case 'Dev Settings':
+						daValue = ClientPrefs.devSettings;
+					case 'Dev Text':
+						daValue = ClientPrefs.devTxt;
 				}
 				checkbox.daValue = daValue;
 			}
