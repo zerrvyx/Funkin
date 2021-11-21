@@ -2263,7 +2263,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote)
+				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote && !daNote.hitCausesMiss)
 				{
 					if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 						camZooming = true;
@@ -2295,7 +2295,7 @@ class PlayState extends MusicBeatState
 								animToPlay = 'singRIGHT';
 						}
 
-					if (ClientPrefs.dadNotesDoDamage && (!(health - ClientPrefs.damageFromDadNotes / 10 * 0.02 < 0.001) || ClientPrefs.dadNotesCanKill)) {
+					if (ClientPrefs.dadNotesDoDamage && (health - ClientPrefs.damageFromDadNotes / 10 * 0.02 > 0.001 || ClientPrefs.dadNotesCanKill)) {
 						health -= ClientPrefs.damageFromDadNotes / 10 * 0.02;
 					}
 
