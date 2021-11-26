@@ -7,6 +7,7 @@ import sys.thread.Thread;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.animation.FlxAnimationController;
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
@@ -118,7 +119,7 @@ class TitleState extends MusicBeatState
 
 	// var logoBl:FlxSprite;
 	var logo:FlxSprite;
-	var gfDance:FlxSprite;
+	var GF:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 
@@ -152,12 +153,13 @@ class TitleState extends MusicBeatState
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-		gfDance = new FlxSprite(FlxG.width * 0.2, FlxG.height * 0.5);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
-		add(gfDance);
+		GF = new FlxSprite(FlxG.width * 0.2, FlxG.height * 0.5);
+		GF.frames = Paths.getSparrowAtlas('gfDanceTitle');
+		GF.animation.addByIndices('danceLeft', 'GF Dance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		GF.animation.addByIndices('danceRight', 'GF Dance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		GF.animation.addByPrefix('Cheer', 'GF Cheer', 24, false);
+		GF.antialiasing = ClientPrefs.globalAntialiasing;
+		add(GF);
 		// add(logoBl);
 
 		titleText = new FlxSprite(135, FlxG.height * 0.8);
@@ -263,15 +265,20 @@ class TitleState extends MusicBeatState
 
 		if (!transitioning && skippedIntro)
 		{
-			if (pressedEnter) {
+			if (pressedEnter) {	
+				GF.animation.remove('danceLeft');
+				GF.animation.remove('danceRight');
+				GF.animation.play('Cheer', true);
+				GF.animation.finish();
+				
 				if (titleText != null) titleText.animation.play('press');
 
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-				FlxTween.tween(logo, {x: -1500}, 3.5, {ease: FlxEase.expoInOut});
-				FlxTween.tween(gfDance, {x: -1500}, 3.7, {ease: FlxEase.expoInOut});
-				FlxTween.tween(titleText, {y: 1500}, 3.7, {ease: FlxEase.expoInOut});
 
+				FlxTween.tween(logo, {x: -1500}, 3.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(GF, {x: -1500}, 3.7, {ease: FlxEase.expoInOut});
+				FlxTween.tween(titleText, {y: 1500}, 3.7, {ease: FlxEase.expoInOut});
 				transitioning = true;
 				// FlxG.sound.music.stop();
 
@@ -336,13 +343,13 @@ class TitleState extends MusicBeatState
 			FlxTween.tween(logo, {'scale.x': 1.05, 'scale.y': 1.05}, 0.1, {ease: FlxEase.bounceIn});
 		}
 
-		if(gfDance != null) {
+		if(GF != null) {
 			danceLeft = !danceLeft;
 
 			if (danceLeft)
-				gfDance.animation.play('danceRight');
+				GF.animation.play('danceRight');
 			else
-				gfDance.animation.play('danceLeft');
+				GF.animation.play('danceLeft');
 		}
 
 		if(!closedState) {

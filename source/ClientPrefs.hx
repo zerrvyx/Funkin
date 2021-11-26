@@ -43,6 +43,7 @@ class ClientPrefs {
 	public static var bounceyHud:Bool = false;
 	public static var devSettings:Bool = false;
 	public static var devTxt:Bool = false;
+	public static var victoryHealthIcons:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -117,6 +118,7 @@ class ClientPrefs {
 		FlxG.save.data.bounceyHud = bounceyHud;
         FlxG.save.data.devSettings = devSettings;
 		FlxG.save.data.devTxt = devTxt;
+		FlxG.save.data.victoryHealthIcons = victoryHealthIcons;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -255,6 +257,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.devTxt != null) {
 			devTxt = FlxG.save.data.devTxt;
+		}
+		if(FlxG.save.data.victoryHealthIcons != null) {
+			victoryHealthIcons = FlxG.save.data.victoryHealthIcons;
 		}
 		
 

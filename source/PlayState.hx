@@ -2092,6 +2092,7 @@ class PlayState extends MusicBeatState
 
 		if (health > maxHealth)
 			health = maxHealth;
+		if(ClientPrefs.victoryHealthIcons) {
 
 		healthPercentage = health / 0.02;
 		if (healthBar.percent < 20)
@@ -2110,6 +2111,22 @@ class PlayState extends MusicBeatState
 					iconP2.animation.curAnim.curFrame = 0;
 				else if (healthBar.percent > 80)
 					iconP2.animation.curAnim.curFrame = 1;
+		}
+	    } else {
+			healthPercentage = health / 0.02;
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent > 20 && healthBar.percent < 80)
+				iconP1.animation.curAnim.curFrame = 0;
+		
+			switch(SONG.player2)
+			{
+			default:
+					if (healthBar.percent > 20 && healthBar.percent < 80)
+						iconP2.animation.curAnim.curFrame = 0;
+					else if (healthBar.percent > 80)
+						iconP2.animation.curAnim.curFrame = 1;
+			}
 		}
         if (ClientPrefs.devSettings) {
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {

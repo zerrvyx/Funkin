@@ -19,6 +19,7 @@ import flixel.util.FlxColor;
 import lime.app.Application;
 import Achievements;
 import editors.MasterEditorMenu;
+import flixel.util.FlxTimer;
 
 using StringTools;
 
@@ -32,14 +33,17 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	var devTxt:FlxText;
 	private var camGame:FlxCamera;
+	private var camStatic:FlxCamera;
 	private var camAchievement:FlxCamera;
 
 	var optionShit:Array<String> = ['story_mode', 'freeplay', #if ACHIEVEMENTS_ALLOWED 'awards', #end 'credits', #if !switch 'donate', #end 'options'];
+    
 
 	var magenta:FlxSprite;
 	var bg:FlxSprite;
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
+	var logo:FlxSprite;
 
 	/*private var char1:Character = null;
 	private var char2:Character = null;
@@ -47,7 +51,6 @@ class MainMenuState extends MusicBeatState
 	private var char4:Character = null;
 	private var char5:Character = null;
 	private var char6:Character = null;*/
-	private var FunkinLogo:Character = null;
 
 	override function create()
 	{
@@ -55,8 +58,11 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+		Conductor.changeBPM(102);
+		persistentUpdate = true;
 
 		camGame = new FlxCamera();
+		camStatic = new FlxCamera();
 		camAchievement = new FlxCamera();
 		camAchievement.bgColor.alpha = 0;
 
@@ -85,6 +91,8 @@ class MainMenuState extends MusicBeatState
 		add(bg);
 		// magenta.scrollFactor.set();
 
+
+
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		magenta.scrollFactor.set(0, yScroll);
 		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
@@ -94,6 +102,16 @@ class MainMenuState extends MusicBeatState
 		magenta.color = 0xFFfd719b;
 		magenta.visible = false;
 		add(magenta);
+
+		logo = new FlxSprite().loadGraphic(Paths.image('projectfnf'));
+		logo.x = 690;
+		logo.y = 73;
+		logo.antialiasing = ClientPrefs.globalAntialiasing;
+		add(logo);
+		var scr:Float = (optionShit.length - 4) * 0.135;
+		logo.scrollFactor.set(0, scr);
+		logo.scale.set(0.8, 0.8);
+
 
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -145,13 +163,17 @@ class MainMenuState extends MusicBeatState
 		versionShit.borderSize = 1.25;
 		add(versionShit);
 
-		devTxt = new FlxText(932, FlxG.height - 717, 0, "Press '7' to open master editors menu.");
+		var devTxt = new FlxText(932, FlxG.height - 717, 0, "Press '7' to open master editors menu.");
 		devTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		devTxt.scrollFactor.set();
 		devTxt.borderSize = 1.25;
 		add(devTxt);
-		if(ClientPrefs.devTxt) {
-			devTxt.visible = true;
+		if(ClientPrefs.devSettings) {
+			if(ClientPrefs.devTxt) {
+				devTxt.visible = true;
+			} else {
+				devTxt.visible = false;
+			}
 		} else {
 			devTxt.visible = false;
 		}
@@ -187,6 +209,9 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		if (FlxG.sound.music != null)
+			Conductor.songPosition = FlxG.sound.music.time;
+
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -234,6 +259,7 @@ class MainMenuState extends MusicBeatState
 						{
 							FlxTween.tween(FlxG.camera, {zoom: 5}, 0.8, {ease: FlxEase.expoIn});
 							FlxTween.tween(bg, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
+							FlxTween.tween(logo, {x: 1500}, 0.8, {ease: FlxEase.expoIn});
 							FlxTween.tween(magenta, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
 							FlxTween.tween(bg, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
 							FlxTween.tween(magenta, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
@@ -318,14 +344,18 @@ class MainMenuState extends MusicBeatState
 
 
 	override function beatHit()
-	{
-		super.beatHit();
-		if (curBeat % 4 == 0 && ClientPrefs.camZooms)
-			FlxG.camera.zoom = 1.015;
-		if (FunkinLogo != null)
+	{		
+
+		super.beatHit();		
+		
+		if (logo != null)
 			{
-				FunkinLogo.scale.set(1, 1);
-				FlxTween.tween(FunkinLogo, {'scale.x': 1.05, 'scale.y': 1.05}, 0.1, {ease: FlxEase.bounceIn});
+				logo.scale.set(1, 1);
+				FlxTween.tween(logo, {'scale.x': 1.05, 'scale.y': 1.05}, 0.1, {ease: FlxEase.bounceIn});
 			}
+
+		/*if (curBeat % 4 == 0 && ClientPrefs.camZooms)
+			FlxG.camera.zoom = 1.015;*/ //commented out cuz it doesn't work lol
+
 	}
 }

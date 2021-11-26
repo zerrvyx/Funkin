@@ -110,11 +110,16 @@ class PauseSubState extends MusicBeatSubstate
 		devTxt.scrollFactor.set();
 		devTxt.borderSize = 1.25;
 		add(devTxt);
-		if(ClientPrefs.devTxt) {
-			devTxt.visible = true;
+	    if(ClientPrefs.devSettings) { 
+			if(ClientPrefs.devTxt) {
+				devTxt.visible = true;
+			} else {
+				devTxt.visible = false;
+			}
 		} else {
 			devTxt.visible = false;
 		}
+//Yes all of this just for text visibility. There's probably a smarter way but I wouldn't know. idc I'm tired lmfao.
 
 		var ControlInfo:FlxText = new FlxText();
 
@@ -126,7 +131,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelDifficulty);
 
 		var deathTxt:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
-		deathTxt.text = "DEATH COUNT: " + PlayState.deathCounter;
+		deathTxt.text = "Deaths: " + PlayState.deathCounter;
 		// Changed Blueballed to Death Count so it can apply to any character.
 		deathTxt.scrollFactor.set();
 		deathTxt.setFormat(Paths.font('vcr.ttf'), 32);

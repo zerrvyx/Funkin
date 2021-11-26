@@ -713,6 +713,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'No Health Gain',
 		'Dad Notes Visible',
 		'BF Notes Visible',
+		'Victory Health Icons',
 		'DEV',
 		'Dev Settings',
 		'Dev Text'
@@ -945,6 +946,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.devSettings = !ClientPrefs.devSettings;
 					case 'Dev Text':
 						ClientPrefs.devTxt = !ClientPrefs.devTxt;
+					case 'Victory Health Icons':
+						ClientPrefs.victoryHealthIcons = !ClientPrefs.victoryHealthIcons;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -1088,7 +1091,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 			case 'Dev Settings':
 				daText = "If checked, allows for various developer tools to be used.";
 			case 'Dev Text':
-				daText = "If checked, shows text that can help you figure out how to use the developer tools.";
+				daText = "If checked, shows text that can help you figure out how to use the developer tools.\n(Will not show unless Dev Settings are also enabled.)";
+				//Had to keep text on one line to avoid problems in game. Sorry ;-;
+			case 'Victory Health Icons':
+				daText = "If checked, victory icons for characters will be shown.";
 		}
 		descText.text = daText;
 
@@ -1193,6 +1199,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.devSettings;
 					case 'Dev Text':
 						daValue = ClientPrefs.devTxt;
+					case 'Victory Health Icons':
+						daValue = ClientPrefs.victoryHealthIcons;
 				}
 				checkbox.daValue = daValue;
 			}
