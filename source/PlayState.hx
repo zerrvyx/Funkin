@@ -2310,13 +2310,13 @@ class PlayState extends MusicBeatState
 						switch (Math.abs(daNote.noteData))
 						{
 							case 0:
-								animToPlay = 'singLEFT';
+								animToPlay = 'LEFT';
 							case 1:
-								animToPlay = 'singDOWN';
+								animToPlay = 'DOWN';
 							case 2:
-								animToPlay = 'singUP';
+								animToPlay = 'UP';
 							case 3:
-								animToPlay = 'singRIGHT';
+								animToPlay = 'RIGHT';
 						}
 
 					var toDrain:Float = ClientPrefs.hardMode ? 0.0225 : ClientPrefs.damageFromDadNotes / 10 * 0.02;
@@ -2327,12 +2327,13 @@ class PlayState extends MusicBeatState
 					}
 
 					if(daNote.noteType == 'GF Sing') {
-						gf.playAnim(animToPlay + altAnim, true);
+						gf.playAnim('sing' + animToPlay + altAnim, true);
 						gf.holdTimer = 0;
 					} else {
-						dad.playAnim(animToPlay + altAnim, true);
+						dad.playAnim('sing' + animToPlay + altAnim, true);
 						dad.holdTimer = 0;
 					}
+					moveCamera(true, animToPlay);
 				}
 
 					if (SONG.needsVoices)
@@ -2834,11 +2835,24 @@ class PlayState extends MusicBeatState
 	}
 
 	var cameraTwn:FlxTween;
-	public function moveCamera(isDad:Bool) {
+	public function moveCamera(isDad:Bool, ?direction:String = null) {
+		if (ClientPrefs.moveCameraOnNoteHit && direction == null) return;
+		var noteHitX:Float = 0;
+		var noteHitY:Float = 0;
+		switch (direction) {
+			case 'UP':
+				noteHitY -= 80;
+			case 'DOWN':
+				noteHitY += 80;
+			case 'LEFT':
+				noteHitX -= 80;
+			case 'RIGHT':
+				noteHitX += 80;
+		}
 		if(isDad) {
 			camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			camFollow.x += dad.cameraPosition[0];
-			camFollow.y += dad.cameraPosition[1];
+			camFollow.x += dad.cameraPosition[0] + noteHitX;
+			camFollow.y += dad.cameraPosition[1] + noteHitY;
 			tweenCamIn();
 		} else {
 			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
@@ -2853,8 +2867,8 @@ class PlayState extends MusicBeatState
 					camFollow.x = boyfriend.getMidpoint().x - 200;
 					camFollow.y = boyfriend.getMidpoint().y - 200;
 			}
-			camFollow.x -= boyfriend.cameraPosition[0];
-			camFollow.y += boyfriend.cameraPosition[1];
+			camFollow.x -= boyfriend.cameraPosition[0] - noteHitX;
+			camFollow.y += boyfriend.cameraPosition[1] + noteHitY;
 
 			if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1) {
 				cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
@@ -3533,22 +3547,23 @@ class PlayState extends MusicBeatState
 				switch (Std.int(Math.abs(note.noteData)))
 				{
 					case 0:
-						animToPlay = 'singLEFT';
+						animToPlay = 'LEFT';
 					case 1:
-						animToPlay = 'singDOWN';
+						animToPlay = 'DOWN';
 					case 2:
-						animToPlay = 'singUP';
+						animToPlay = 'UP';
 					case 3:
-						animToPlay = 'singRIGHT';
+						animToPlay = 'RIGHT';
 				}
 
 				if(note.noteType == 'GF Sing') {
-					gf.playAnim(animToPlay + daAlt, true);
+					gf.playAnim('sing' + animToPlay + daAlt, true);
 					gf.holdTimer = 0;
 				} else {
-					boyfriend.playAnim(animToPlay + daAlt, true);
+					boyfriend.playAnim('sing' + animToPlay + daAlt, true);
 					boyfriend.holdTimer = 0;
 				}
+				moveCamera(false, animToPlay);
 
 				if(note.noteType == 'Hey!') {
 					if(boyfriend.animOffsets.exists('hey')) {
