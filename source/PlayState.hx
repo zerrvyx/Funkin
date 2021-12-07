@@ -177,7 +177,6 @@ class PlayState extends MusicBeatState
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
-	public var canCameraMove:Bool = true;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
@@ -2838,7 +2837,6 @@ class PlayState extends MusicBeatState
 
 	var cameraTwn:FlxTween;
 	public function moveCamera(isDad:Bool, ?direction:String = null) {
-		if (!canCameraMove) return;
 		if (ClientPrefs.moveCameraInNoteDirection && direction == null) return;
 		var noteHitX:Float = 0;
 		var noteHitY:Float = 0;
