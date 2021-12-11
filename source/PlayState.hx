@@ -150,6 +150,7 @@ class PlayState extends MusicBeatState
 	public var healthDrained:Float;
 	public var minDrained:Float = 0;
 	public var shouldPassiveDrain:Bool = false;
+	public var toPassiveDrain:Float = 0.035;
 	public var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
@@ -2073,9 +2074,8 @@ class PlayState extends MusicBeatState
 		var iconOffset:Int = 26;
 
 		if (ClientPrefs.hardMode && health > 0.001 && shouldPassiveDrain) {
-			var toPassiveDrain:Float = 0.035 / FlxG.updateFramerate;
-			health -= toPassiveDrain;
-			healthDrained += toPassiveDrain;
+			health -= toPassiveDrain / FlxG.updateFramerate;
+			healthDrained += toPassiveDrain / FlxG.updateFramerate;
 		}
 
 		if (health > maxHealth)
@@ -2287,7 +2287,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote && !daNote.hitCausesMiss)
+				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote)
 				{
 					if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 						camZooming = true;
@@ -3430,6 +3430,9 @@ class PlayState extends MusicBeatState
 				animToPlay = 'singRIGHTmiss';
 		}
 
+		if (ClientPrefs.playMissAnimations)
+			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+
 		if (ClientPrefs.stunsBlockInputs) {
 			boyfriend.stunned = true;
 
@@ -3515,6 +3518,7 @@ class PlayState extends MusicBeatState
 
 			if(note.hitCausesMiss) {
 				noteMiss(note);
+				toPassiveDrain += 0.0075;
 				if(!note.noteSplashDisabled && !note.isSustainNote) {
 					spawnNoteSplashOnNote(note);
 				}
