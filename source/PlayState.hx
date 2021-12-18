@@ -71,7 +71,7 @@ class PlayState extends MusicBeatState
 		['B', 0.8], //From 70% to 79%
 		['A', 0.9], //From 80% to 89%
 		['S', 1], //From 90% to 99%
-		['SFC', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['SS', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -2210,12 +2210,6 @@ class PlayState extends MusicBeatState
 		var accuracyPercentage = FlxMath.roundDecimal(ratingPercent * 100, 2);
 		if (Math.isNaN(accuracyPercentage)) accuracyPercentage = 100;
 
-		var fc:String = '';
-		if (songHits > 0 && accuracyPercentage != 100) {
-			if (songMisses < 10) fc = '(SDCB) ';
-			if (songMisses == 0) fc = '(FC) ';
-		}
-
 		var suffix:String = '';
 		if (ratingName != '?') {
 			var thing:Float = FlxMath.roundDecimal(ratingPercent * 10, 0) * 10; // you can't do 'ratingPercent * 100', the number must be rounded before multiplying by 10
@@ -2227,13 +2221,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		var healthTxt = '';
+		var thScoreHealthTxt = '';
 		var accuracyTxt = '';
 		if (ClientPrefs.advancedScoreTxt) {
-			healthTxt = ' | Health: ' + FlxMath.roundDecimal(healthPercentage, 0) + '%';
+			thScoreHealthTxt = ' (' + totalPlayed * 350 + ') | Health: ' + FlxMath.roundDecimal(healthPercentage, 0) + '%';
 			accuracyTxt = ' | Accuracy: ' + accuracyPercentage + '%';
 		}
-		scoreTxt.text = 'Score: ' + songScore + healthTxt + ' | Misses: ' + songMisses + accuracyTxt + ' | Rating: ' + fc + ratingName + suffix;
+		scoreTxt.text = 'Score: ' + songScore + thScoreHealthTxt + ' | Misses: ' + songMisses + accuracyTxt + ' | Rating: ' + ratingFC + ratingName + suffix;
 
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
@@ -3341,12 +3335,15 @@ class PlayState extends MusicBeatState
 		switch (daRating)
 		{
 			case "shit": // shit
+				score = 50;
 				totalNotesHit += 0;
 				shits++;
 			case "bad": // bad
+				score = 100;
 				totalNotesHit += 0.5;
 				bads++;
 			case "good": // good
+				score = 200;
 				totalNotesHit += 0.75;
 				goods++;
 			case "sick": // sick
@@ -3844,8 +3841,7 @@ class PlayState extends MusicBeatState
 			if (ClientPrefs.moveCameraInNoteDirection)
 				moveCamera(true, animToPlay);
 		}
-		if (ClientPrefs.opponentNotesDoDamage && (health - toDrain > 0.001 || ClientPrefs.opponentNotesCanKill) && healthDrained < 2 - toDrain)
-		{
+		if (ClientPrefs.opponentNotesDoDamage && (health - toDrain > 0.001 || ClientPrefs.opponentNotesCanKill) && healthDrained < 2 - toDrain) {
 			shouldPassiveDrain = true;
 			health -= toDrain;
 			healthDrained += toDrain;
@@ -4406,11 +4402,11 @@ class PlayState extends MusicBeatState
 
 			// Rating FC
 			ratingFC = "";
-			if (sicks > 0) ratingFC = "SFC";
-			if (goods > 0) ratingFC = "GFC";
-			if (bads > 0 || shits > 0) ratingFC = "FC";
-			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			if (sicks > 0) ratingFC = "(SFC) ";
+			if (goods > 0) ratingFC = "(GFC) ";
+			if (bads > 0 || shits > 0) ratingFC = "(FC) ";
+			if (songMisses > 0 && songMisses < 10) ratingFC = "(SDCB) ";
+			else if (songMisses >= 10) ratingFC = "(Clear) ";
 		}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
