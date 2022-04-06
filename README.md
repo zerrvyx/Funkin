@@ -1,3 +1,4 @@
+# Note: This repo is both deprecated and no longer in use. I only have this for reference for future stuff.
 # Friday Night Funkin' - HEJMT+
 Dumb lil mod me and some of my friends are making. 
 
